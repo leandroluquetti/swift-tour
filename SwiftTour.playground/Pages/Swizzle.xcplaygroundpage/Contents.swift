@@ -1,4 +1,4 @@
-//: [Previous](@previous)
+//: [Extension e Protocols](@previous)
 
 import Foundation
 
@@ -17,9 +17,10 @@ let awesomeObject = AwesomeClass()
 print(awesomeObject.originalFunction()) // prints: "originalFunction"
 
 let aClass = AwesomeClass.self
-let originalMethod = class_getInstanceMethod(aClass, #selector(AwesomeClass.originalFunction))
-let swizzledMethod = class_getInstanceMethod(aClass, #selector(AwesomeClass.swizzledFunction))
-method_exchangeImplementations(originalMethod, swizzledMethod)
+if let originalMethod = class_getInstanceMethod(aClass, #selector(AwesomeClass.originalFunction)),
+   let swizzledMethod = class_getInstanceMethod(aClass, #selector(AwesomeClass.swizzledFunction)) {
+    method_exchangeImplementations(originalMethod, swizzledMethod)
+}
 
 print(awesomeObject.originalFunction())  // prints: "swizzledFunction"
-//: [Next](@next)
+//: [Generics](@next)

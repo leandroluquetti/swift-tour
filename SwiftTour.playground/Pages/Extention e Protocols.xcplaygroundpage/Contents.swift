@@ -129,7 +129,7 @@ printIntegerKinds([3, 19, -27, 0, -6, 0, 7])
 
 protocol ExampleProtocol {
     var simpleDescription: String { get }
-    func adjust()
+    mutating func adjust()
 }
 
 
@@ -233,4 +233,4 @@ func makeDeveloperDevelop(_ developer: Developerable) {
 
 makeDeveloperDevelop(renato)
 makeDeveloperDevelop(gui)
-//: [Next](@next)
+//: [Swizzle](@next)

@@ -70,4 +70,4 @@ internal class D: C {
     }
 }
 
-//: [Next](@next)
+//: ## FIM 😎
