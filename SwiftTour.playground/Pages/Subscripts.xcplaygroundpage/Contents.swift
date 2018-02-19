@@ -1,100 +1,60 @@
-//: [Previous](@previous)
+//: [Properties](@previous)
 
-import Foundation
+//: ## Subscripts
 
-class Person {
-    var residence: Residence?
-}
+/*
+ subscript(index: Int) -> Int {
+ get {
+ // return an appropriate subscript value here
+ }
+ set(newValue) {
+ // perform a suitable setting action here
+ }
+ }
+ */
 
-class Residence {
-    var rooms = [Room]()
-    var numberOfRooms: Int {
-        return rooms.count
+struct TimesTable {
+    let multiplier: Int
+    subscript(index: Int) -> Int {
+        return multiplier * index
     }
-    
-    subscript(i: Int, y: String) -> Room {
+}
+let threeTimesTable = TimesTable(multiplier: 3)
+print("six times three is \(threeTimesTable[6])")
+
+// Subscript Usage
+var numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
+numberOfLegs["bird"] = 2
+
+// Subscript Options
+struct Matrix {
+    let rows: Int, columns: Int
+    var grid: [Double]
+    init(rows: Int, columns: Int) {
+        self.rows = rows
+        self.columns = columns
+        grid = Array(repeating: 0.0, count: rows * columns)
+    }
+    func indexIsValid(row: Int, column: Int) -> Bool {
+        return row >= 0 && row < rows && column >= 0 && column < columns
+    }
+    subscript(row: Int, column: Int) -> Double {
         get {
-            return rooms[i]
+            assert(indexIsValid(row: row, column: column), "Index out of range")
+            return grid[(row * columns) + column]
         }
         set {
-            rooms[i] = newValue
-        }
-    }
-    
-    func printNumberOfRooms() {
-        print("The number of rooms is \(numberOfRooms)")
-    }
-    
-    var address: Address?
-}
-
-class Room {
-    let name: String
-    init(name: String) { self.name = name }
-}
-
-class Address {
-    var buildingName: String?
-    var buildingNumber: String?
-    var street: String?
-    func buildingIdentifier() -> String? {
-        if buildingName != nil {
-            return buildingName
-        } else if buildingNumber != nil && street != nil {
-            return "\(buildingNumber) \(street)"
-        } else {
-            return nil
+            assert(indexIsValid(row: row, column: column), "Index out of range")
+            grid[(row * columns) + column] = newValue
         }
     }
 }
-
-let john = Person()
-if let roomCount = john.residence?.numberOfRooms {
-    print("John's residence has \(roomCount) room(s).")
-} else {
-    print("Unable to retrieve the number of rooms.")
-}
-
-
-let someAddress = Address()
-someAddress.buildingNumber = "29"
-someAddress.street = "Acacia Road"
-john.residence?.address = someAddress
-
-func createAddress() -> Address {
-    print("Function was called.")
-    
-    let someAddress = Address()
-    someAddress.buildingNumber = "29"
-    someAddress.street = "Acacia Road"
-    
-    return someAddress
-}
-
-john.residence?.address = createAddress()
-
-if john.residence?.printNumberOfRooms() != nil {
-    print("It was possible to print the number of rooms.")
-} else {
-    print("It was not possible to print the number of rooms.")
-}
-
-if (john.residence?.address = someAddress) != nil {
-    print("It was possible to set the address.")
-} else {
-    print("It was not possible to set the address.")
-}
+var matrix = Matrix(rows: 2, columns: 2)
+matrix[0, 1] = 1.5
+matrix[1, 0] = 3.2
+matrix
+//let someValue = matrix[2, 2]
+// a linha acima causará um erro por conta de index out of bounds
 
 
-let johnsHouse = Residence()
-johnsHouse.rooms.append(Room(name: "Living Room"))
-johnsHouse.rooms.append(Room(name: "Kitchen"))
-johnsHouse.address = someAddress
-john.residence = johnsHouse
-
-if let firstRoomName = john.residence?[0, "Test"].name {
-    print("The first room name is \(firstRoomName).")
-} else {
-    print("Unable to retrieve the first room name.")
-}
-//: [Next](@next)
+//: [Inheritance](@next)

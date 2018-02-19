@@ -1,34 +1,56 @@
-//: [Voltar para Controle de Fluxo](@previous)
+//: [Voltar para Condicionais](@previous)
 /*: 
-### Funções
+## Funções
+ >Every function has a specific function type, made up of the parameter types and the return type of the function.
 */
 //: Criando uma função
-func imprimirNaTela() {
-    print("Função simples sem parâmetros")
+//: Function sem parâmetros
+func sayHelloWorld() -> String {
+    return "hello, world"
 }
+print(sayHelloWorld())
 
-//: Chamando uma função.
-imprimirNaTela()
-
-//: Funções com parâmetros
-func retorna(texto: String) -> String {
-    let textoRetorno = "Inicio \(texto) Fim"
-    return textoRetorno
+//: Function com parâmetros
+func greet(person: String) -> String {
+    let greeting = "Olá, " + person + "!"
+    return greeting
 }
+print(greet(person: "Carlos"))
+print(greet(person: "Alberto"))
 
-func retorna(_ texto: String = "Pelé", xuxa: String = "Xuxa") -> String {
-    let textoRetorno = "Inicio \(texto) Fim \(xuxa)"
-    
-    return textoRetorno
+func greetAgain(person: String) -> String {
+    return "Olá denovo, " + person + "!"
 }
+print(greetAgain(person: "Carlos Alberto"))
 
-retorna(texto: "Oi, meu nome é Gervásio")
-retorna("blablalba", xuxa: "pelé")
-retorna(xuxa: "qwe")
+//: Múltiplos parâmetros
+func greet(person: String, alreadyGreeted: Bool) -> String {
+    if alreadyGreeted {
+        return greetAgain(person: person)
+    } else {
+        return greet(person: person)
+    }
+}
+print(greet(person: "Giovana", alreadyGreeted: true))
 
+//: Functions sem retornos
+func greet2(person: String) {
+    print("Olá, \(person)!")
+}
+greet2(person: "Giovana")
 
-//: Funções que retornam mais de um valor
-func minMax(_ array: [Int]) -> (min: Int, max: Int) {
+func printAndCount(string: String) -> Int {
+    print(string)
+    return string.count
+}
+func printWithoutCounting(string: String) {
+    _ = printAndCount(string: string)
+}
+printAndCount(string: "hello, world")
+printWithoutCounting(string: "hello, world")
+
+//: Functions com multiplos retornos
+func minMax(array: [Int]) -> (min: Int, max: Int) {
     var currentMin = array[0]
     var currentMax = array[0]
     for value in array[1..<array.count] {
@@ -40,56 +62,121 @@ func minMax(_ array: [Int]) -> (min: Int, max: Int) {
     }
     return (currentMin, currentMax)
 }
+let bounds = minMax(array: [8, -6, 2, 109, 3, 71])
+print("minimo é \(bounds.min) e o maximo é \(bounds.max)")
 
-let array = [1,2,3,4,5,6,7,8,9]
-
-minMax(array)
-
-/*: 
-### Funções de sistema
-	**min** Retorna o menor valor de uma sequencia
-*/
-var menor = min(1000,7,3171,3080)
-print("Menor Valor: \(menor)")
-
-/*:
-	**max** Retorna o maior valor de uma sequência
-*/
-var maior = max(1000,7,3171,3080)
-print("Maior Valor: \(maior)")
-
-/*:
-	**sort** Utilizamos esta função para ordenar coleções.
-*/
-var numeros = [10,5,7,2,3,9,1]
-numeros.sorted(by: >)
-print(numeros)
-
-/*:
-	**dump** Exibe o conteúdo de um array de forma detalhada e em formato de árvore.
-*/
-class Pet {
-    var type = "Cachorro"
+//: Optionals
+func minMaxSafe(array: [Int]) -> (min: Int, max: Int)? {
+    if array.isEmpty {return nil }
+    var currentMin = array[0]
+    var currentMax = array[0]
+    for value in array[1..<array.count] {
+        if value < currentMin {
+            currentMin = value
+        } else if value > currentMax {
+            currentMax = value
+        }
+    }
+    return (currentMin, currentMax)
+}
+if let bounds = minMaxSafe(array: [8, -6, 2, 109, 3, 71]) {
+    print("minimo é \(bounds.min) e o maximo é \(bounds.max)")
 }
 
-class Person {
-    var name = "Salmo"
-    var age = 18
-    var pet = Pet()
+//: Parameter Labels
+// Especificando um label
+func greet(person: String, from hometown: String) -> String {
+    return "Olá \(person)! Você mora em \(hometown)."
+}
+greet(person: "Zeca", from: "Champinas")
+
+// Omitindo um parametro && Default value
+func greet(_ person: String = "Mundo", from hometown: String = "Universo") -> String {
+    return "Olá \(person)! Você mora em \(hometown)."
+}
+greet(from: "Argentina")
+
+// Parametro variado
+func arithmeticMean(_ numbers: Double...) -> Double {
+    var total: Double = 0
+    for number in numbers {
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+arithmeticMean(1, 2, 3, 4, 5)
+arithmeticMean(3, 8, 19)
+
+//: In-Out Parameters
+func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+var someInt = 3
+var anotherInt = 107
+swapTwoInts(&someInt, &anotherInt)
+print("someInt é \(someInt), e anotherInt é \(anotherInt)")
+
+//: Function Types
+//> você pore definir uma variável ou constante para ser do tipo de uma função:
+
+func addTwoInts(_ a: Int, _ b: Int) -> Int {
+    return a + b
+}
+func multiplyTwoInts(_ a: Int, _ b: Int) -> Int {
+    return a * b
 }
 
-let salmo = Person()
-dump(salmo)
+var mathFunction: (Int, Int) -> Int = addTwoInts
+print("Result: \(mathFunction(2, 3))")
 
-let linguagens = ["Objective-C", "Swift", "C", "PHP", "Python"]
-dump(linguagens)
+mathFunction = multiplyTwoInts
+print("Result: \(mathFunction(2, 3))")
 
-/*:
-	**join** Função utilizada para adicionar um elemento/separador/caractere entres os elementos de uma coleção.
-*/
-let operacoes = ["soma", "divisão", "multiplicação", "divisão", "resto"]
-var operacoesJuntas = operacoes.joined(separator: "-")
-print("Operações juntas \(operacoesJuntas)")
+let anotherMathFunction = addTwoInts
 
+// Function Types como parâmetro
+func printMathResult(_ mathFunction: (Int, Int) -> Int, _ a: Int, _ b: Int) {
+    print("Result: \(mathFunction(a, b))")
+}
+printMathResult(addTwoInts, 3, 5)
+
+// Function Types como retorno
+func stepForward(_ input: Int) -> Int {
+    return input + 1
+}
+func stepBackward(_ input: Int) -> Int {
+    return input - 1
+}
+
+func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+    return backward ? stepBackward : stepForward
+}
+
+var currentValue = 3
+let moveNearerToZero = chooseStepFunction(backward: currentValue > 0)
+
+print("Counting to zero:")
+while currentValue != 0 {
+    print("\(currentValue)... ")
+    currentValue = moveNearerToZero(currentValue)
+}
+print("zero!")
+
+
+// Nested Functions
+func chooseAnotherStepFunction(backward: Bool) -> (Int) -> Int {
+    func stepForward(input: Int) -> Int { return input + 1 }
+    func stepBackward(input: Int) -> Int { return input - 1 }
+    return backward ? stepBackward : stepForward
+}
+currentValue = -4
+let moveNearerToZeroAgain = chooseAnotherStepFunction(backward: currentValue > 0)
+while currentValue != 0 {
+    print("\(currentValue)... ")
+    currentValue = moveNearerToZeroAgain(currentValue)
+}
+print("zero!")
 
 //: [Ir para Closures](@next)

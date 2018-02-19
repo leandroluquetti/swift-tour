@@ -1,4 +1,4 @@
-//: [Voltar para Tuplas](@previous)
+//: [Voltar para Control Flow](@previous)
 //: ## Condicionais
 //: If
 var temperatureInFarenheit = 30

@@ -3,11 +3,11 @@
 import Foundation
 
 class AwesomeClass {
-    dynamic func originalFunction() -> String {
+    @objc dynamic func originalFunction() -> String {
         return "originalFunction"
     }
     
-    dynamic func swizzledFunction() -> String {
+    @objc dynamic func swizzledFunction() -> String {
         return "swizzledFunction"
     }
 }
