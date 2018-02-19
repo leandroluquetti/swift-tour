@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='raw' executeOnSourceChanges='false'>
+    <pages>
+        <page name='Hello'/>
+        <page name='The Basics'/>
+        <page name='Operators'/>
+        <page name='Strings'/>
+        <page name='Collection Types'/>
+        <page name='Control Flow'/>
+        <page name='Condicionais'/>
+        <page name='Funções'/>
+        <page name='Closures'/>
+        <page name='Enums'/>
+        <page name='Structure'/>
+        <page name='Class'/>
+        <page name='Optionals'/>
+        <page name='Type Casting'/>
+        <page name='Extention e Protocols'/>
+        <page name='Swizzle'/>
+        <page name='Subscripts'/>
+        <page name='Generics'/>
+        <page name='Error Handling'/>
+    </pages>
+</playground>
